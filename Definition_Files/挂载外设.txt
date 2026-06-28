@@ -1,0 +1,11 @@
+ubuntu 挂载外设的命令：
+
+列举磁盘分区：sudo fdisk -l	fdisk(fixed disk)，找到对应的外设，例如： /dev/sda1
+
+创建用于挂载外设的目录：sudo mkdir /mnt/mydev
+
+挂载外设到挂载目录：sudo mount /dev/sda1 /mnt/mydev
+
+卸载外设挂载：sudo umount /mnt/mydev
+
+删除不用的挂载目录：sudo rmdir /mnt/mydev
