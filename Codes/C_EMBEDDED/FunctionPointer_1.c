@@ -41,7 +41,15 @@ int main(){
         printf("the first number must be an positive number!\n");
         return 0;
     }
+    /* 
     printf("result = %d\n",p(m,n));
+    printf("address of add is %p\n",add);
+    printf("address of subtract is %p\n",subtract);
+    printf("address of multiplation is %p\n",multiplication);
+    printf("address of divison is %p\n",division);
+    printf("content of pointer p is %p\n",p);
+    printf("address of pointer p is %p\n",&p); 
+    */ 
     return 0;
     
 }
