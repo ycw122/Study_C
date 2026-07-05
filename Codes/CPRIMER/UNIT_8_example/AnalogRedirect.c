@@ -23,7 +23,7 @@ int main() {
 
         switch (choice) {
             case 1:
-                printf("\n--- 开始模拟：键盘输入 → 文件输出 ---\n");
+                 printf("\n--- 开始模拟：键盘输入 → 文件输出 ---\n");
                 keyboard_to_file();
                 break;
             case 2:

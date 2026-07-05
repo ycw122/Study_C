@@ -1,0 +1,4 @@
+（1）使用scanf（）输入字符后按下的回车键相当于一个换行符存在于输入缓冲区，会影响下一次的输入，紧随其后使用getchar()将换行符读出，避免影响程序。
+或者养成一个好习惯，在每个scanf()第一个占位符前敲一个空格也能解决问题。
+（2）UBUNTU系统和VSCODE C/C++插件的兼容问题：GDB断点调试C文件报错(&"\342\232\240\357\270\217 warning: GDB: Failed to set controlling terminal: Operation not permitted\n")，
+GDB使用终端命令可正常调试C文件，降低C/C++插件版本后恢复正常断点调试。
