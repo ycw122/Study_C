@@ -25,7 +25,7 @@ int main(){
     for (int i = 0; i < sizeof(cals)/sizeof(cals[0]); i++)
     {
         /* code */
-        printf("result of cal%d is%f\n",i,cals[i](m,n));
+        printf("result of cal[%d] is %f\n",i,cals[i](m,n));
     }    
     
     return 0;
