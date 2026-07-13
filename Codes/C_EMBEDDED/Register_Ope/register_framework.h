@@ -1,6 +1,6 @@
 /**
  * @file    register_framework.h
- * @brief   简易MCU寄存器读写框架 头文件
+ * @brief   模拟简易MCU寄存器读写框架 头文件
  * @details 提供寄存器地址映射、通用位操作宏、外设寄存器定义、全位宽寄存器操作函数声明
  *          完整兼容 8bit / 16bit / 32bit 寄存器读写、位操作、掩码配置，贴合真实MCU硬件
  * @author  框架模拟工程
@@ -35,6 +35,7 @@
  * @param  REG: 寄存器变量/寄存器宏
  * @param  BIT: 目标操作位号(从0开始)
  */
+// toggle:切换
 #define BIT_TOGGLE(REG, BIT)   ((REG) ^=  (1U << (BIT)))
 
 /**
@@ -54,25 +55,33 @@
 #define REG_MASK(START, LEN)   (((1U << (LEN)) - 1U) << (START))
 
 /*****************************************************************************
- * 外设虚拟基地址定义（模拟MCU片上外设总线地址）
+ * 寄存器里的外设虚拟基地址定义（模拟MCU片上寄存器里的外设总线地址）
  *****************************************************************************/
-#define GPIO_BASE_ADDR    0x40001000U    // GPIO外设模块基地址
-#define UART_BASE_ADDR    0x40002000U    // UART串口外设模块基地址
+// 使用数组模拟GPIO外设模块虚拟基地址
+#define GPIO_MEM_SIZE_32BIT 16
+extern volatile uint32_t gpio_base_addr_32bit[GPIO_MEM_SIZE_32BIT];
+#define GPIO_MEM_SIZE_16BIT 16
+extern volatile uint16_t gpio_base_addr_16bit[GPIO_MEM_SIZE_16BIT];
+#define GPIO_MEM_SIZE_8BIT 16
+extern volatile uint8_t gpio_base_addr_8bit[GPIO_MEM_SIZE_8BIT];
+// 使用数组模拟UART外设模块虚拟基地址
+#define UART_MEM_SIZE_32BIT 16
+extern volatile uint32_t uart_base_addr_32bit[UART_MEM_SIZE_32BIT];
 
 /*****************************************************************************
  * GPIO 寄存器偏移地址
  *****************************************************************************/
-#define GPIO_CR_OFFSET    0x00U    // GPIO32位控制寄存器偏移地址
-#define GPIO_DR_OFFSET    0x04U    // GPIO32位数据寄存器偏移地址
-#define GPIO_RST_OFFSET   0x08U    // GPIO32位复位寄存器偏移地址
-#define GPIO_8BIT_OFFSET  0x0CU    // GPIO 8位模拟寄存器偏移地址
-#define GPIO_16BIT_OFFSET 0x10U    // GPIO 16位模拟寄存器偏移地址
+#define GPIO_CR_OFFSET    0x00U   // GPIO32位控制寄存器偏移地址
+#define GPIO_DR_OFFSET    0x04U   // GPIO32位数据寄存器偏移地址
+#define GPIO_RST_OFFSET   0x08U   // GPIO32位复位寄存器偏移地址
+#define GPIO_8BIT_OFFSET  0x00U   // GPIO 8位模拟寄存器偏移地址
+#define GPIO_16BIT_OFFSET 0x00U  // GPIO 16位模拟寄存器偏移地址
 
 /*****************************************************************************
  * UART 寄存器偏移地址
  *****************************************************************************/
 #define UART_BAUD_OFFSET  0x00U    // UART32位波特率配置寄存器偏移地址
-#define UART_CTRL_OFFSET  0x04U    // UART32位功能控制寄存器偏移地址
+#define UART_CTRL_OFFSET 0x04U   // UART32位功能控制寄存器偏移地址
 
 /*****************************************************************************
  * 寄存器地址映射（核心：模拟MCU内存映射寄存器）
@@ -80,15 +89,15 @@
  * 原理：32位虚拟地址 + 类型限定，仅改变访问字节数，不改变地址本身，无内存溢出风险
  *****************************************************************************/
 // 32位寄存器定义
-#define GPIO_CR       (*((volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_CR_OFFSET)))
-#define GPIO_DR       (*((volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_DR_OFFSET)))
-#define GPIO_RST      (*((volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_RST_OFFSET)))
-#define UART_BAUD     (*((volatile uint32_t *)(UART_BASE_ADDR + UART_BAUD_OFFSET)))
-#define UART_CTRL     (*((volatile uint32_t *)(UART_BASE_ADDR + UART_CTRL_OFFSET)))
+#define GPIO_CR       gpio_base_addr_32bit[GPIO_CR_OFFSET]
+#define GPIO_DR       gpio_base_addr_32bit[GPIO_DR_OFFSET]
+#define GPIO_RST      gpio_base_addr_32bit[GPIO_RST_OFFSET]
+#define UART_BAUD     uart_base_addr_32bit[UART_BAUD_OFFSET]
+#define UART_CTRL     uart_base_addr_32bit[UART_CTRL_OFFSET]
 
 // 8位/16位拓展寄存器定义（模拟MCU窄位宽寄存器）
-#define GPIO_REG_8BIT   (*((volatile uint8_t  *)(GPIO_BASE_ADDR + GPIO_8BIT_OFFSET)))
-#define GPIO_REG_16BIT  (*((volatile uint16_t *)(GPIO_BASE_ADDR + GPIO_16BIT_OFFSET)))
+#define GPIO_REG_8BIT   gpio_base_addr_8bit[GPIO_8BIT_OFFSET]
+#define GPIO_REG_16BIT  gpio_base_addr_16bit[GPIO_16BIT_OFFSET]
 
 /*****************************************************************************
  * GPIO 引脚位号定义

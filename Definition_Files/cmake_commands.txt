@@ -1,0 +1,30 @@
+创建工作目录：mkdir -p demo/{src,include,tests,build,lib,doc}
+查看目录内容：tree demo/
+在工程根目录下创建CMakeLists.txt项目构建文件，文件内容模板，可参考菜鸟教程：
+
+cmake_minimum_required(VERSION 3.16)
+# 设置项目名称和语言
+project(RegOpeDemo C CXX)
+
+# 设置C标准
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# 头文件目录
+include_directories(include)
+
+# 添加源码
+add_executable(reg_demo
+    src/main.c
+    src/reg_framework.c
+)
+
+
+工程命令(在build目录下执行)：
+cmake ..	(指定源码目录为上级目录，生成构建脚本到当前目录)
+make		(全量编译,会在build目录下生成可执行二进制文件)
+make clean	(删除编译产物，可执行的二进制文件)
+rm -rf *	（遍历删除当前目录下所有内容）
+./demo		(运行可执行文件)
+
+
