@@ -12,4 +12,5 @@ include_directories(include)
 add_executable(reg_demo
     src/main.c
     src/reg_framework.c
+    include/reg_framework.h
 )

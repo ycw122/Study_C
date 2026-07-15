@@ -4,16 +4,16 @@
 #include <stdint.h>
 
 // 定义声明一个全局数组(用来模拟寄存器)，注意在头文件中不能初始化，需要在对应的.c文件中初始化，也就是reg_framework.c
-#define REG_MEM_SIZE 16
+#define REG_MEM_SIZE 6
 extern volatile uint8_t reg_mem[REG_MEM_SIZE];
 
 // 设置模拟寄存器的偏移量
-#define GPIO_8BIT_OFFSET 0x03U
+#define GPIO_8BIT_OFFSET 0x00U
 #define GPIO_REG_8BIT (reg_mem[GPIO_8BIT_OFFSET])
 
 // 标准嵌入式位操作宏
-#define BIT_SET(reg,bit)    ((reg) |= (1U << (bit)))
-#define BIT_CLR(reg,bit)    ((reg) &= ~(1U << (bit)))
+#define BIT_SET(reg,bit)    ((reg) |= (1U << (bit)))    //bit位置1
+#define BIT_CLR(reg,bit)    ((reg) &= ~(1U << (bit)))   //bit位清0
 
 
 // 函数声明
@@ -22,6 +22,12 @@ uint8_t RegRead8(volatile uint8_t *reg);
 
 void Reg_BitSet8(volatile uint8_t *reg,uint8_t bit);
 void Reg_BitClr8(volatile uint8_t *reg,uint8_t bit);
+
+void wrireValToReg_loop();
+void readValFromRag_loop();
+
+void set_bit1();
+void set_bit0();
 
 #endif
 

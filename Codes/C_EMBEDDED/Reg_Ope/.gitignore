@@ -36,7 +36,6 @@ gdb.txt
 # ==============================================
 # IDE & Editor (VSCode, CLion, Vim, etc.)
 # ==============================================
-.vscode/
 .idea/
 .clangd/
 .clang-format

@@ -1,0 +1,3 @@
+/home/yu-chuanwei/Desktop/Study_Files/Study_C/Codes/build/CMakeFiles/reg_demo.dir
+/home/yu-chuanwei/Desktop/Study_Files/Study_C/Codes/build/CMakeFiles/edit_cache.dir
+/home/yu-chuanwei/Desktop/Study_Files/Study_C/Codes/build/CMakeFiles/rebuild_cache.dir
