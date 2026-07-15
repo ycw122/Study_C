@@ -1,1 +1,0 @@
-/usr/bin/gcc -g -Wl,--dependency-file=CMakeFiles/reg_demo.dir/link.d CMakeFiles/reg_demo.dir/src/main.c.o CMakeFiles/reg_demo.dir/src/reg_framework.c.o -o reg_demo
