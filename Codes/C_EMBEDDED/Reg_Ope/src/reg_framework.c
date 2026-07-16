@@ -60,11 +60,22 @@ void Reg_BitClr8(volatile uint8_t *reg, uint8_t bit)
 
 void set_bit1(){
     unsigned int a,b;
-    printf("please input a offset which address you want to set(1-6):\n");
+    printf("please input a offset(1-6) which address you want to set to 1:\n");
     scanf("%u",&a);
-    printf("please input a bit number that address you want to set(1-8):\n");
+    printf("please input a bit number(1-8) that address you want to set to 1:\n");
     scanf("%u",&b);
     Reg_BitSet8(&reg_mem[a-1],b-1);
-    printf("reg_mem[%d] is %hhx\n",a-1,reg_mem[a-1]);
+    printf("reg_mem[%d] is %hhx now!\n",a-1,reg_mem[a-1]);
+    return;
+}
+
+void set_bit0(){
+    unsigned int a,b;
+    printf("please input a offset(1-6) which address you want to set to 0:\n");
+    scanf("%u",&a);
+    printf("please input a bit number(1-8) that address you want to set to 0:\n");
+    scanf("%u",&b);
+    Reg_BitClr8(&reg_mem[a-1],b-1);
+    printf("reg_mem[%d] is %hhx now!\n",a-1,reg_mem[a-1]);
     return;
 }

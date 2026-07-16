@@ -19,5 +19,6 @@ int main(void)
     wrireValToReg_loop();
     readValFromRag_loop();
     set_bit1();
+    set_bit0();
     return 0;
 }
