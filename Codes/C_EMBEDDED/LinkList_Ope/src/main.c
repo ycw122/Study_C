@@ -5,7 +5,7 @@
 
 int main()
 {
-    LinkList L;
+    LinkList L=NULL;
     initLinkList(&L);
     for (uint8_t i = 0; i < 3; i++)
     {

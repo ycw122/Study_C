@@ -12,17 +12,25 @@
  */
 bool initLinkList(LinkList *L)
 {
-    if ((*L = malloc(sizeof(LNode))) != NULL)
+    /* 判断链表是否已经被初始化，如果指针指向NULL，说明没有初始化，可进行初始化操作。
+    若是已经初始化，需要先执行destroyLinkList操作，free堆内存，不然会造成堆内存溢出 */
+    if (*L==NULL)
     {
-        /* 将头节点的next指向NULL*/
-        LinkList p=*L;
-        p->next=NULL;
-        printf("initalize LinkList with headNode successfully!\n");
-        return true;
-    }
-    else
+        // 初始化成功
+        if ((*L = malloc(sizeof(LNode))) != NULL)
+        {
+        (*L)->next=NULL; /* 将头节点的next指向NULL */
+            printf("initalized LinkList pointed to headNode successfully!\n");
+            return true;
+        }
+        else
+        {
+            printf("failed to initalize LinkList，could not allocate full heap memory!\n");
+            return false;
+        }
+    }else
     {
-        printf("failed to initalize LinkList with headNode!\n");
+        printf("this LinkList had been initalized before,please free the heap memories to destroy LinkList first!\n");
         return false;
     }
 }
@@ -34,24 +42,30 @@ bool initLinkList(LinkList *L)
  * @retval none
  * @note   要在另外一个函数里修改一个指针保存的地址，必须传入这个指针的地址，通过解引用来修改指针保存的地址
  */
-void destroyLinkList(LinkList *L)
+bool destroyLinkList(LinkList *L)
 {
-    LNode *p = *L;
-    LNode *q = NULL;
-    while (p != NULL)
+    if (*L != NULL) // 先判断链表是否存在，即头指针是否指向空
     {
-        /* code */
-        q = p->next;
-        /* 注意free函数只是在堆内存中把指针p中保存的地址标记为空闲(可分配状态)，
-        没有清空地址中的数据，也没有把p=NULL，p在栈内存中，free无权操作 */
-        free(p);
-        p = q;
+        LNode *p = *L;
+        LNode *q = NULL;
+        while (p != NULL)
+        {
+            q = p->next;
+            /* 注意free函数只是在堆内存中把指针p中保存的地址标记为空闲(可分配状态)，
+            没有清空地址中的数据，也没有把p=NULL，p在栈内存中，free无权操作 */
+            free(p);
+            p = q;
+        }
+        *L = NULL;
+        printf("destroy LinkList successfully!\n");
+        return true;
     }
-    *L = NULL;
-    printf("destroy LinkList successfully!\n");
-    return;
+    else
+    {
+        printf("this linkList had been destroied before or not been initalized!\n");
+        return false;
+    }
 }
-
 
 /**
  * @brief  addNode
@@ -60,25 +74,29 @@ void destroyLinkList(LinkList *L)
  * @retval none
  * @note   none
  */
-void addNode(LinkList L){
-    // val存放新节点的值
-    uint8_t val;
-    printf("please input a value which includes two hexadecimal members for new Node:\n");
-    scanf("%hhx",&val);
-    // 创建工作指针p指向头节点
-    LNode *p=L;
-    // 遍历寻找next为NULL的节点
-    while (p->next!=NULL)
+bool addNode(LinkList L)
+{
+    if (L != NULL)  // 先判断链表是否已经初始化，也就是头指针是否指向了头节点，未初始化Z则L==NULL
     {
-        p=p->next;
+        uint8_t val;    // val存放新节点的值
+        printf("please input a value which includes two hexadecimal members for new Node:\n");
+        scanf("%hhx", &val);
+        LNode *p = L;   // 创建工作指针p指向头节点
+        while (p->next != NULL) // 遍历寻找next为NULL的节点，也就是尾节点
+        {
+            p = p->next;
+        }
+        p->next = malloc(sizeof(LNode));    // 创建新的节点链接到链表尾部
+        p->next->val = val;
+        p->next->next = NULL;   // 新节点的next指向NULL
+        printf("you have add a new Node successfully whose value is 0x%hhx\n", val);
+        return true;
     }
-    // 创建新的节点链接到链表尾部
-    p->next=malloc(sizeof(LNode));
-
-    p->next->val=val;   
-    // 新节点的next指向NULL
-    p->next->next=NULL;
-    printf("you have add a new Node successfully whose value is 0x%hhx\n",val);
+    else
+    {
+        printf("LinkList not been initalized, please initalize LinkList first!\n");
+        return false;
+    }
 }
 
 /**
@@ -107,15 +125,35 @@ uint8_t delNodeByVal(LinkList L, uint8_t tarVal)
 }
 
 
-void traverseLinkList(LinkList L){
-    uint8_t count=0;
-    // 跳过头节点，直接指向首节点
-    LNode *p=L->next;
-    while (p!=NULL)
+/**
+ * @brief  traverseLinkList
+ * @brief  遍历链表节点
+ * @param  L: 目标链表
+ * @retval 是否遍历成功
+ * @note   无
+ */
+bool traverseLinkList(LinkList L)
+{
+    if (L == NULL)  //判断是否已经初始化链表
     {
-        count ++;
-        printf("No.%u:Node's value is %hhx\n",count,p->val);
-        p=p->next;
+        printf("please initalize LinkList first!\n");
+        return false;
     }
-    printf("traverse done!\n");
+    else if (L->next == NULL)   //判断链表是否添加了数据节点
+    {
+        printf("please add Nodes first!\n");
+        return false;
+    }
+    else    //初始化且添加了数据节点
+    {
+        uint8_t count = 0;
+        LNode *p = L->next; // 跳过头节点，直接指向首节点
+        while (p != NULL)
+        {
+            count++;
+            printf("No.%u:Node's value is %hhx\n", count, p->val);
+            p = p->next;
+        }
+        printf("traverse done!\n");
+    }
 }
