@@ -1,0 +1,10 @@
+task.json可以配置功能:
+    编译代码：用gcc编译工具编译代码
+    执行脚本：执行shell脚本
+    构建项目：用make等构建工具构建脚本
+    其他任务：清理生成文件、打包、上传…
+task配置的是命令，所以它可以非常灵活，可以看作是一个执行脚本的快捷方式。
+
+launch.json:是gdb的配置文件，在tasks.json的构建和编译任务结束后，调试程序时起作用。
+其preLaunchTask选项衔接tasks.json,为tasks.json的label
+"preLaunchTask": "C/C++: gcc build active file"

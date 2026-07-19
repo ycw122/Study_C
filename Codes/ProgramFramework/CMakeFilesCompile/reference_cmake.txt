@@ -1,0 +1,91 @@
+此程序的目录树：
+.
+├── build
+├── CMakeLists.txt
+├── doc
+│   ├── Linklist_C.c
+│   └── Linklist_C++.cpp
+├── include
+│   └── LinkList.h
+├── lib
+├── reference_cmake.txt
+├── src
+│   ├── LinkList.c
+│   └── main.c
+└── tests
+
+
+CMake 是一个构建系统生成器，主要用于生成构建描述文件（如 Makefile——make的规则文件）。
+它通过解析 CMakeLists.txt 文件，提供跨平台支持，能够生成适用于不同操作系统的构建文件。
+CMake 提供了高级抽象，支持条件语句、循环和模块化设计，适合大型项目的管理。
+Make 是一个构建工具，负责根据 Makefile 中的规则执行具体的构建操作。
+它直接调用编译器（如 GCC）完成编译和链接任务。
+CMake和make之间的关系：
+CMake是项目经理，负责编写项目大纲和规则，make是员工，根据大纲和规则去执行任务。
+
+
+
+终端命令：
+mkdir build :先创建build文件夹（在程序根目录下执行）
+
+cmake .. :告诉cmake CMakeLists.txt文件在上一层文件中，根据CMakeLists.txt文件在build文件夹下创建构建描述文件(在build目录下执行)
+
+make :完成编译和链接任务，在build文件夹下生成可执行文件
+
+./demo :执行可执行文件
+
+
+
+图像化使用：
+Ctrl+Shift+P :打开命令搜索框，输入CMake:Configure   选择编译器(gcc/g++),选择项目名称，
+控制台输出：[cmake] -- Configuring done (0.0s) 
+          [cmake] -- Generating done (0.0s)
+表示创建构建描述文件成功，窗口底部出现Build Debugger run图标，可点击执行。
+
+注意：将头文件和源文件保存在不同的文件夹中，可能会出现源文件无法找到头文件的报错，
+可Ctrl+Shift+P :打开命令搜索框，输入C/C++：EditConfigurations,自动生成c_cpp_properties.json文件，
+将include和src目录加入includePath，例如：
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/src"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}
+
+
+
+CMakeLists.txt文件模板：
+
+cmake_minimum_required(VERSION 3.16)
+project(CMakeDemo C CXX)
+
+# 设置C标准
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# 头文件目录
+include_directories(include)
+
+# 添加源码
+add_executable(cmake_demo
+    src/main.c
+    src/LinkList.c
+    include/LinkList.h
+)
+
+
+
+

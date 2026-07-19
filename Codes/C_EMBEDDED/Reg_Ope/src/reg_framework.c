@@ -7,10 +7,10 @@ volatile uint8_t reg_mem[REG_MEM_SIZE] = {0}; //.h文件声明数组,对应的.c
 void wrireValToReg_loop()
 {
     uint8_t val;
-    for (size_t i = 1; i < REG_MEM_SIZE+1; i++)
+    for (size_t i = 0; i < REG_MEM_SIZE; i++)
     {
         
-        printf("please input two hexadecimal numbers which is %zu/6 in 8bit register:\n", i);
+        printf("please input two hexadecimal numbers which is %zu/6 in 8bit register:\n", i+1);
         if (scanf("%hhx", &val)==1)
         {
             RegWrite8(&reg_mem[GPIO_8BIT_OFFSET+i],val);
@@ -28,10 +28,10 @@ void wrireValToReg_loop()
 
 void readValFromRag_loop(){
     uint8_t val;
-    for (size_t i = 1; i < REG_MEM_SIZE+1; i++)
+    for (size_t i = 0; i < REG_MEM_SIZE; i++)
     {
         val=RegRead8(&reg_mem[GPIO_8BIT_OFFSET+i]);
-        printf("the No. %zu value in 8bit register is %hhx\n",i,val);
+        printf("the No. %zu value in 8bit register is %hhx\n",i+1,val);
     }
     return;
 }
@@ -60,22 +60,22 @@ void Reg_BitClr8(volatile uint8_t *reg, uint8_t bit)
 
 void set_bit1(){
     unsigned int a,b;
-    printf("please input a offset(1-6) which address you want to set to 1:\n");
+    printf("please input a offset(1-6) poision which  you want to set to 1:\n");
     scanf("%u",&a);
-    printf("please input a bit number(1-8) that address you want to set to 1:\n");
+    printf("please input a bit number(1-8) poision that  you want to set to 1:\n");
     scanf("%u",&b);
     Reg_BitSet8(&reg_mem[a-1],b-1);
-    printf("reg_mem[%d] is %hhx now!\n",a-1,reg_mem[a-1]);
+    printf("reg_mem[%d] is %hhx now!\n",a-1,RegRead8(&reg_mem[a-1]));
     return;
 }
 
 void set_bit0(){
     unsigned int a,b;
-    printf("please input a offset(1-6) which address you want to set to 0:\n");
+    printf("please input a offset(1-6) poision which you want to set to 0:\n");
     scanf("%u",&a);
-    printf("please input a bit number(1-8) that address you want to set to 0:\n");
+    printf("please input a bit number(1-8) poision that you want to set to 0:\n");
     scanf("%u",&b);
     Reg_BitClr8(&reg_mem[a-1],b-1);
-    printf("reg_mem[%d] is %hhx now!\n",a-1,reg_mem[a-1]);
+    printf("reg_mem[%d] is %hhx now!\n",a-1,RegRead8(&reg_mem[a-1]));
     return;
 }

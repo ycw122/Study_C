@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(LinkListDemo C CXX)
+project(CMakeDemo C CXX)
 
 # 设置C标准
 set(CMAKE_C_STANDARD 99)
@@ -9,7 +9,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 include_directories(include)
 
 # 添加源码
-add_executable(linklist_demo
+add_executable(cmake_demo
     src/main.c
     src/LinkList.c
     include/LinkList.h
