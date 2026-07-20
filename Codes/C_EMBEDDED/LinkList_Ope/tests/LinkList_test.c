@@ -1,4 +1,4 @@
-#include "LinkList.h"
+#include "LinkList_test.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -143,9 +143,14 @@ uint8_t delNodeByVal(LinkList L)
                 free(q);
                 q==NULL;    //q用完后及时指向NULL，避免下个函数中定义了相同的q,对q指向的地址误操作
                 count++;
+            }else
+            {
+                p = p->next;
             }
-            p = p->next;
+            
+            
         }
+        printf("you have delete %hhu nodes whose value is %hhx\n",count,tarVal);
         return count;
     }
 
