@@ -103,25 +103,39 @@ bool addNode(LinkList L)
  * @brief  delNodeByVal
  * @brief  删除链表节点
  * @param  L: 目标链表
- * @param  tarVal: 目标值
  * @retval 删除节点的数量
  * @note   查找并删除与目标值相同的节点，返回删除节点的数量
  */
-uint8_t delNodeByVal(LinkList L, uint8_t tarVal)
+uint8_t delNodeByVal(LinkList L)
 {
-    LinkList p = L;
-    uint8_t count;
-    while (p != NULL && p->next != NULL)
+    if (L == NULL)  //判断是否已经初始化链表
     {
-        if (p->next->val == tarVal)
-        {
-            /* code */
-            p->next = p->next->next;
-            count++;
-        }
-        p = p->next;
+        printf("please initalize LinkList first!\n");
+        return false;
     }
-    return count;
+    else if (L->next == NULL)   //判断链表是否添加了数据节点
+    {
+        printf("please add Nodes first!\n");
+        return false;
+    }
+    else    //初始化且添加了数据节点
+    {
+        uint8_t tarVal,count;
+        LinkList p = L;
+        printf("p");
+        while (p != NULL && p->next != NULL)
+        {
+            if (p->next->val == tarVal)
+            {
+                /* code */
+                p->next = p->next->next;
+                count++;
+            }
+            p = p->next;
+        }
+        return count;
+    }
+
 }
 
 
@@ -155,5 +169,6 @@ bool traverseLinkList(LinkList L)
             p = p->next;
         }
         printf("traverse done!\n");
+        return true;
     }
 }
