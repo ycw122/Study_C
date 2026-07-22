@@ -7,8 +7,7 @@
 void clearStdin()
 {
     int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF)
-        ;
+    while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
 /**
@@ -102,6 +101,7 @@ bool addNode(LinkList L)
         p->next->next = NULL; // 新节点的next指向NULL
         printf("you have add a new Node successfully whose value is 0x%hhx\n", val);
         L->val += 1; // 将头节点的值(链表的长度加一)
+        printf("the LinkList's length is %hhd now.\n",L->val);
         return true;
     }
     else
@@ -154,7 +154,8 @@ bool delNodeByVal(LinkList L)
                 p = p->next;
             }
         }
-        printf("you have delete %hhu nodes whose value is %hhx\n", count, tarVal);
+        printf("you have delete %hhu nodes whose value is 0x%hhx\n", count, tarVal);
+        printf("the LinkList's length is %hhd now.\n",L->val);
         return true;
     }
 }
@@ -195,7 +196,9 @@ bool delNodeBySerialNum(LinkList L)
                 temp = q->val;
                 p->next = p->next->next;
                 free(q);
+                L->val -= 1; // 将头节点的值(链表的长度）减一
                 printf("the No.%d Node whose value is 0x%hhx had been deleted.\n", serNum, temp);
+                printf("the LinkList's length is %hhd now.\n",L->val);
                 return true;
             }
             else // 没找到
@@ -212,11 +215,148 @@ bool delNodeBySerialNum(LinkList L)
     }
 }
 
-bool findNodeByVal(LinkList L) {}
+bool findNodeByVal(LinkList L) {
+    if (L == NULL) // 判断是否已经初始化链表
+    {
+        printf("please initalize LinkList first!\n");
+        return false;
+    }
+    else if (L->next == NULL) // 判断链表是否添加了数据节点
+    {
+        printf("please add Nodes first!\n");
+        return false;
+    }
+    else // 初始化且添加了数据节点
+    {
+        uint8_t tarVal,count;     // tarVal:目标数  count:找到目标数的数量
+        uint8_t serNum=1;   //serNum:记录序号
+        LNode *p = L->next;          // 工作指针，用来遍历寻找目标节点,指向首节点
+        printf("please input a value you want to find,which includes two hexadecimal numbers:\n");
+        scanf("%hhx", &tarVal);
+        void clearStdin();
+        while (p!= NULL)
+        {
+            if (p->val == tarVal)
+            {
+                printf("the NO.%hhu 's value is 0x%hhx.\n",serNum,tarVal);
+                count++;
+                p = p->next;
+                serNum++;
+            }
+            else
+            {
+                p = p->next;
+                serNum++;
+            }
+        }
+        if (count==0)
+        {
+            printf("there is no such value which is 0x%hhx in the LinkList.\n",tarVal);
+            return false;
+        }else{
+            printf("found %hhu target values(0x%hhx) in the LinkList.\n",count,tarVal);
+            return true;
+        }
+    }
+}
 
-bool findNodeBySerialNum(LinkList L) {}
+bool findNodeBySerialNum(LinkList L)
+{
+    if (L == NULL) // 判断是否已经初始化链表
+    {
+        printf("please initalize LinkList first!\n");
+        return false;
+    }
+    else if (L->next == NULL) // 判断链表是否添加了数据节点
+    {
+        printf("please add Nodes first!\n");
+        return false;
+    }
+    else // 初始化且添加了数据节点
+    {
+        // 这里不能用无符号的类型来定义seNum,因为当输入负数时，无符号类型会将负数转化为正数，程序无法处理正确数据。
+        int serNum;
+        uint8_t temp; // 临时保存节点的value
+        LNode *p = L; // 工作指针，用来遍历寻找目标节点
+        // LNode *q = NULL; // 用来保存将要被free()释放的节点
+        printf("please input a serial number,which position you want to find:\n");
+        scanf("%d", &serNum);
+        void clearStdin();
+        if (serNum > 0) // 输入的序列号大于零
+        {
+            int woker = serNum;            // 工作计数
+            while (woker > 0 && p != NULL) // 遍历到目标节点，p!=NULL：把链表遍历完了序列号还没到就结束循环。
+            {
+                p = p->next;
+                woker--;
+            }
+            if (p != NULL) // 找到了
+            {
+                printf("the No.%d Node  value is 0x%hhx.\n", serNum, p->val);
+                return true;
+            }
+            else // 没找到
+            {
+                printf("the serial number you inputed is out of range\n");
+                return false;
+            }
+        }
+        else
+        { // 输入序列号小于零
+            printf("please inupt a positive integer!\n");
+            return false;
+        }
+    }
+}
 
-bool changeNodeByVal(LinkList L) {}
+bool changeNodeByVal(LinkList L) {
+    if (L == NULL) // 判断是否已经初始化链表
+    {
+        printf("please initalize LinkList first!\n");
+        return false;
+    }
+    else if (L->next == NULL) // 判断链表是否添加了数据节点
+    {
+        printf("please add Nodes first!\n");
+        return false;
+    }
+    else // 初始化且添加了数据节点
+    {
+        uint8_t tarVal,count,resultVal;     // tarVal:改变前的数  count:找到目标数的数量 resultVal:改变后的数
+        uint8_t serNum=1;   //serNum:记录序号
+        LNode *p = L->next;          // 工作指针，用来遍历寻找目标节点,指向首节点
+        printf("please input a value you want to change,which includes two hexadecimal numbers:\n");
+        scanf("%hhx", &tarVal);
+        void clearStdin();
+        printf("please input a value you want to change to,which includes two hexadecimal numbers:\n");
+        scanf("%hhx", &resultVal);
+        void clearStdin();
+        while (p!= NULL)
+        {
+            if (p->val == tarVal)
+            {
+                p->val=resultVal;
+                printf("the NO.%hhu 's value is 0x%hhx,it had been changed to 0x%hhx.\n",serNum,tarVal,resultVal);
+                count++;
+                p = p->next;
+                serNum++;
+            }
+            else
+            {
+                p = p->next;
+                serNum++;
+            }
+        }
+        if (count==0)
+        {
+            printf("there is no such value which is 0x%hhx in the LinkList.\n",tarVal);
+            return false;
+        }else{
+            printf("changed %hhu target values(0x%hhx) to result values(0x%hhx) in the LinkList.\n",count,tarVal,resultVal);
+            return true;
+        }
+    }
+}
 
 bool changeNodeBySerialNum(LinkList L) {}
 
@@ -246,7 +386,7 @@ bool traverseLinkList(LinkList L)
         while (p != NULL)
         {
             count++;
-            printf("No.%u:Node's value is %hhx\n", count, p->val);
+            printf("No.%hhu:Node's value is 0x%hhx\n", count, p->val);
             p = p->next;
         }
         printf("traverse done!\n");
