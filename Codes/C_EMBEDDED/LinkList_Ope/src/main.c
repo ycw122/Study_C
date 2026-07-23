@@ -9,23 +9,24 @@ int main()
     uint8_t num;
     while (1)
     {
-        printf("****************************************\n");
-        printf("******Linkist Operatinng Sysetem********\n");
-        printf("****************************************\n");
-        printf("**Enter number 1-11 to choose Operating:\n");
-        printf("**  1--initalize LinkList    ***********\n");
-        printf("**  2--destrory LinkList     ***********\n");
-        printf("**  3--add LNode             ***********\n");
-        printf("**  4--delete LNode by value ***********\n");
-        printf("**  5--delete LNode by serial number****\n");
-        printf("**  6--find LNode by value   ***********\n");
-        printf("**  7--find LNode by serial number   ***\n");
-        printf("**  8--change LNode by value   *********\n");
-        printf("**  9--change LNode by serial number   *\n");
-        printf("**  10--traverse LinkList    ***********\n");
-        printf("**  11--stop program         ***********\n");
-        printf("****************************************\n");
-        printf("enter your choice in here:\n");
+        printf("*******************************************************************************\n");
+        printf("********************Linkist Operatinng Sysetem*********************************\n");
+        printf("*******************************************************************************\n");
+        printf("****************Enter number 1-11 to choose Operating:*************************\n");
+        printf("****************  1--initalize LinkList    ************************************\n");
+        printf("****************  2--destrory LinkList     ************************************\n");
+        printf("****************  3--add LNode             ************************************\n");
+        printf("****************  4--delete LNode by value ************************************\n");
+        printf("****************  5--delete LNode by serial number*****************************\n");
+        printf("****************  6--find LNode by value   ************************************\n");
+        printf("****************  7--find LNode by serial number   ****************************\n");
+        printf("****************  8--change LNode by value   **********************************\n");
+        printf("****************  9--change LNode by serial number   **************************\n");
+        printf("****************  10--traverse LinkList    ************************************\n");
+        printf("****************  11--stop program         ************************************\n");
+        printf("****************each value in Linklist is two hexadecimal numbers.*************\n");
+        printf("****************all serial numbers in Linklist are positive decimal numbers.***\n");
+        printf("****************enter your choice in here:*************************************\n");
 
         // 修复：%hhu 匹配 uint8_t(unsigned char)
         scanf("%hhu", &num);
@@ -51,18 +52,23 @@ int main()
             break;
         case 5:
             printf("5 -- Delete LNode by serial number\n");
+            delNodeBySerialNum(L);
             break;
         case 6:
             printf("6 -- Find LNode by value\n");
+            findNodeByVal(L);
             break;
         case 7:
             printf("7 -- Find LNode by serial number\n");
+            findNodeBySerialNum(L);
             break;
         case 8:
             printf("8 -- Change LNode by value\n");
+            changeNodeByVal(L);
             break;
         case 9:
             printf("9 -- Change LNode by serial number\n");
+            changeNodeBySerialNum(L);
             break;
         case 10:
             printf("10 -- Traverse LinkList\n");

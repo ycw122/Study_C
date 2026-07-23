@@ -87,7 +87,7 @@ bool addNode(LinkList L)
 {
     if (L != NULL) // 先判断链表是否已经初始化，也就是头指针是否指向了头节点，未初始化Z则L==NULL
     {
-        uint8_t val; // val存放新节点的值
+        uint8_t val=0; // val存放新节点的值
         printf("please input a value which includes two hexadecimal members for new Node:\n");
         scanf("%hhx", &val);
         clearStdin();
@@ -132,7 +132,7 @@ bool delNodeByVal(LinkList L)
     }
     else // 初始化且添加了数据节点
     {
-        uint8_t tarVal, count; // tarVal:目标数，count:目标数的数量
+        uint8_t tarVal=0, count=0,serNum=0; // tarVal:目标数，count:目标数的数量
         LNode *p = L;          // 工作指针，用来遍历寻找目标节点
         LNode *q = NULL;       // 用来保存将要被free的节点
         printf("please input a value you want to delete,which includes two hexadecimal numbers:\n");
@@ -142,6 +142,7 @@ bool delNodeByVal(LinkList L)
         {
             if (p->next->val == tarVal)
             {
+                serNum++;
                 q = p->next;
                 p->next = p->next->next;
                 free(q);
@@ -175,9 +176,9 @@ bool delNodeBySerialNum(LinkList L)
     else // 初始化且添加了数据节点
     {
         // 这里不能用无符号的类型来定义seNum,因为当输入负数时，无符号类型会将负数转化为正数，程序无法处理正确数据。
-        int serNum;
-        uint8_t temp;    // 临时保存节点的value
-        LNode *p = L;    // 工作指针，用来遍历寻找目标节点
+        int serNum=0;
+        uint8_t temp=0;    // 临时保存节点的value
+        LNode *p = L;    // 工作指针，用来遍历寻找目标节点，最终指向被删除节点的上一个节点
         LNode *q = NULL; // 用来保存将要被free()释放的节点
         printf("please input a serial number,which position you want to delete:\n");
         scanf("%d", &serNum);
@@ -185,17 +186,24 @@ bool delNodeBySerialNum(LinkList L)
         if (serNum > 0) // 输入的序列号大于零且小于等于链表的长度
         {
             int woker = serNum;            // 工作计数
-            while (woker > 1 && p != NULL) // 遍历到目标节点的前一个节点，p!=NULL：把链表遍历完了序列号还没到就结束循环。
+            while (woker > 1 && p != NULL) // 遍历到目标节点的前一个节点，循环serNum-1次。p!=NULL：把链表遍历完了序列号还没到就结束循环。
             {
                 p = p->next;
                 woker--;
             }
-            if (p != NULL) // 找到了
+            /*
+              (注意这里是判断p->next!=NULL,而不是判断p!=NULL,
+              我们删除的是p指向节点的下一个节点，当删除serNum比链表长度大1,
+              此时p指向链表的最后一个节点，如果使用p!=NULL当作判断条件，
+              p!=NULL为真，下一步程序会执行删除语句，而我们的serNum明显超出了范围，
+              应该执行else语句，所以应该判断下一个节点是否为NULLL。 */
+            if (p ->next!= NULL)    //找到了
             {
                 q = p->next;
                 temp = q->val;
                 p->next = p->next->next;
                 free(q);
+                q=NULL;
                 L->val -= 1; // 将头节点的值(链表的长度）减一
                 printf("the No.%d Node whose value is 0x%hhx had been deleted.\n", serNum, temp);
                 printf("the LinkList's length is %hhd now.\n",L->val);
@@ -228,8 +236,8 @@ bool findNodeByVal(LinkList L) {
     }
     else // 初始化且添加了数据节点
     {
-        uint8_t tarVal,count;     // tarVal:目标数  count:找到目标数的数量
-        uint8_t serNum=1;   //serNum:记录序号
+        uint8_t tarVal=0,count=0;     // tarVal:目标数  count:找到目标数的数量
+        uint8_t serNum=0;   //serNum:记录序号
         LNode *p = L->next;          // 工作指针，用来遍历寻找目标节点,指向首节点
         printf("please input a value you want to find,which includes two hexadecimal numbers:\n");
         scanf("%hhx", &tarVal);
@@ -238,15 +246,15 @@ bool findNodeByVal(LinkList L) {
         {
             if (p->val == tarVal)
             {
-                printf("the NO.%hhu 's value is 0x%hhx.\n",serNum,tarVal);
-                count++;
-                p = p->next;
                 serNum++;
+                count++;
+                printf("the NO.%hhu 's value is 0x%hhx.\n",serNum,tarVal);
+                p = p->next;
             }
             else
             {
-                p = p->next;
                 serNum++;
+                p = p->next;
             }
         }
         if (count==0)
@@ -275,10 +283,8 @@ bool findNodeBySerialNum(LinkList L)
     else // 初始化且添加了数据节点
     {
         // 这里不能用无符号的类型来定义seNum,因为当输入负数时，无符号类型会将负数转化为正数，程序无法处理正确数据。
-        int serNum;
-        uint8_t temp; // 临时保存节点的value
+        int serNum=0;
         LNode *p = L; // 工作指针，用来遍历寻找目标节点
-        // LNode *q = NULL; // 用来保存将要被free()释放的节点
         printf("please input a serial number,which position you want to find:\n");
         scanf("%d", &serNum);
         void clearStdin();
@@ -322,8 +328,8 @@ bool changeNodeByVal(LinkList L) {
     }
     else // 初始化且添加了数据节点
     {
-        uint8_t tarVal,count,resultVal;     // tarVal:改变前的数  count:找到目标数的数量 resultVal:改变后的数
-        uint8_t serNum=1;   //serNum:记录序号
+        uint8_t tarVal=0,count=0,resultVal=0;     // tarVal:改变前的数  count:找到目标数的数量 resultVal:改变后的数
+        uint8_t serNum=0;   //serNum:记录序号
         LNode *p = L->next;          // 工作指针，用来遍历寻找目标节点,指向首节点
         printf("please input a value you want to change,which includes two hexadecimal numbers:\n");
         scanf("%hhx", &tarVal);
@@ -335,16 +341,16 @@ bool changeNodeByVal(LinkList L) {
         {
             if (p->val == tarVal)
             {
+                serNum++;
                 p->val=resultVal;
                 printf("the NO.%hhu 's value is 0x%hhx,it had been changed to 0x%hhx.\n",serNum,tarVal,resultVal);
                 count++;
                 p = p->next;
-                serNum++;
             }
             else
             {
-                p = p->next;
                 serNum++;
+                p = p->next; 
             }
         }
         if (count==0)
@@ -358,7 +364,57 @@ bool changeNodeByVal(LinkList L) {
     }
 }
 
-bool changeNodeBySerialNum(LinkList L) {}
+bool changeNodeBySerialNum(LinkList L) {
+     if (L == NULL) // 判断是否已经初始化链表
+    {
+        printf("please initalize LinkList first!\n");
+        return false;
+    }
+    else if (L->next == NULL) // 判断链表是否添加了数据节点
+    {
+        printf("please add Nodes first!\n");
+        return false;
+    }
+    else // 初始化且添加了数据节点
+    {
+        // 这里不能用无符号的类型来定义seNum,因为当输入负数时，无符号类型会将负数转化为正数，程序无法处理正确数据。
+        int serNum=0;
+        uint8_t temp=0,resultVal=0; // temp临时保存节点的value,     resultVal:用来保存想要改变成的值   
+        LNode *p = L; // 工作指针，用来遍历寻找目标节点
+        printf("please input a serial number,which position you want to change:\n");
+        scanf("%d", &serNum);
+        void clearStdin();
+        printf("please input a value that you want to change to:\n");
+        scanf("%hhx", &resultVal);
+        void clearStdin();
+        if (serNum > 0) // 输入的序列号大于零
+        {
+            int woker = serNum;            // 工作计数
+            while (woker > 0 && p != NULL) // 遍历到目标节点，p!=NULL：把链表遍历完了序列号还没到就结束循环。
+            {
+                p = p->next;
+                woker--;
+            }
+            if (p != NULL) // 找到了
+            {
+                temp=p->val;
+                p->val=resultVal;
+                printf("the No.%d Node's  value have be changed from 0x%hhx to 0x%hhx.\n", serNum,temp,resultVal);
+                return true;
+            }
+            else // 没找到
+            {
+                printf("the serial number you inputed is out of range\n");
+                return false;
+            }
+        }
+        else
+        { // 输入序列号小于零
+            printf("please inupt a positive integer!\n");
+            return false;
+        }
+    }
+}
 
 /**
  * @brief  traverseLinkList
