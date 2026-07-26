@@ -1,13 +1,25 @@
-（1）使用scanf（）输入字符后按下的回车键相当于一个换行符存在于输入缓冲区，会影响下一次的输入，紧随其后使用getchar()将换行符读出，避免影响程序。
+（1）
+使用scanf（）输入字符后按下的回车键相当于一个换行符存在于输入缓冲区，会影响下一次的输入，紧随其后使用getchar()将换行符读出，避免影响程序。
 或者养成一个好习惯，在每个scanf()第一个占位符前敲一个空格也能解决问题。
-（2）UBUNTU系统和VSCODE C/C++插件的兼容问题：GDB断点调试C文件报错(&"\342\232\240\357\270\217 warning: GDB: Failed to set controlling terminal: Operation not permitted\n")，
-GDB使用终端命令可正常调试C文件，降低C/C++插件版本后恢复正常断点调试。
+较为保险全面的方法是写一个清空标准输入缓冲区的函数，每次使用完scanf()函数后，使用clearStdin()来清空缓冲区。
+//  清空缓冲区的字符，这里换行符'\n'也被清空，包括如果用户输入结束是 EOF（Ctrl+D / Ctrl+Z），也给清空。
+void clearStdin()
+{
+     int ch;
+     while((ch=getchar())!='\n' && ch	!=EOF);
+}
+	
+（2）
+UBUNTU系统和VSCODE C/C++插件的兼容问题：GDB断点调试C文件报错(&"\342\232\240\357\270\217 warning: GDB: Failed to set controlling terminal: Operation not permitted\n")，无法进行单点调试,GDB使用终端命令可正常调试C文件，降低C/C++插件版本后恢复正常断点调试。
 
-下载c++ sudo apt install c++
+（3）
+ 下载c++ ：
+sudo apt install c++
 crtl+shif+p C/C++: Edit configurations (UI)
 
 Compiler path 改成 /usr/bin/g++
 C++ standard 改成C++20
 
+（4）
 在实际的编程中，需要习惯性将函数中定义的所有变量(指针，局部/全局变量等)初始化，特别是循环执行一个函数，比如“删除/增加”等函数，这些函数中的局部变量如果没有初始化，上一次循环产生的结果会影响下一次循环。
 在堆内存执行完free(指针)后,习惯性将指针指针指向NULL，因为free()只能将指针指向的堆内存标记为“未使用”状态，并不会将指针置为NULL，指针仍然指向堆内存，且内存中的值也没有置零，极大可能影响程序。（下一个语句立马改变指针指向的情况除外）
