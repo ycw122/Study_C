@@ -19,11 +19,13 @@ typedef struct LNode
 }*LinkStack,LNode;
 
 extern void clearStdin();
+extern uint8_t delNextNode(LinkStack L);
+typedef uint8_t (*PopCallBack)(LinkStack);     //可指向delNextNode()函数指针
 extern uint8_t isEmpty(LinkStack L);
 extern void init(LinkStack *L);
 extern bool destrory(LinkStack *L);
 extern bool push(LinkStack L);
-extern bool pop();
+extern bool pop(LinkStack L,PopCallBack cb);
 extern bool traverse(LinkStack L);
 
 

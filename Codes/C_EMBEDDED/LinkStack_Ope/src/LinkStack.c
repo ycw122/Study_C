@@ -88,6 +88,15 @@ uint8_t delNextNode(LinkStack L){
     }
 }
 
+
+/**
+ * @brief  destrory
+ * @brief  销毁链栈
+ * @param  L:接收T头指针的地址
+ * @retval Ptrue
+ * @retval false
+ * @note   无
+ * */
 bool destrory(LinkStack *L){
     LNode *q=NULL;  //临时保存节点的指针
     LNode *p=*L;    //工作指针
@@ -119,8 +128,64 @@ bool destrory(LinkStack *L){
 }
 
 bool push(LinkStack L){
-    //头插法
-    
+    printf("start push!\n");
+    if (L==NULL)
+    {
+        printf("linkstack not been intalized, please intalized linkstack first.\n");
+        return false;
+    }else{
+        uint8_t val;
+        printf("input a value whose format is two hexadecimal numbers:\n");
+        scanf("%hhx",&val);
+        clearStdin();
+        LNode *p=L,*q=malloc(sizeof(LNode));    //p:woker pointer, q:allocate memory in heap for new LNode
+        q->Val=val;
+        q->next=p->next;    //头插法
+        p->next=q;
+        (L->Val)++; //链栈长度加一
+        printf("push sucessfully!\n");
+    }
+        
 }
-bool pop(){}
-bool traverse(LinkStack L){}
+bool pop(LinkStack L,PopCallBack cb){
+    printf("start pop!\n");
+    uint8_t val;
+    switch (isEmpty(L))
+    {
+    case POINT_TO_NULL:
+        printf("linkstack not been intalized, please intalized linkstack first.\n");
+        return false;
+    case NEXT_POINT_TO_NULL:
+        printf("linkstack is empty, please push a LNode first.\n");
+        return false;
+    default:
+        val=cb(L);
+        break;
+    }
+    printf("pop successfully! Value of pop is %hhx.\n",val);
+}
+
+bool traverse(LinkStack L){
+    printf("start traverse linkstack!\n");
+    switch (isEmpty(L))
+    {
+    case POINT_TO_NULL:
+        printf("linkstack not been intalized, please intalized linkstack first.\n");
+        return false;
+    case NEXT_POINT_TO_NULL:
+        printf("linkstack is empty, please push a LNode first.\n");
+        return false;
+    default:
+        LNode *p=L->next;
+        uint8_t serialNum=1;
+        while (p=NULL)
+        {
+            printf("the value of No. %hhu is %hhx",serialNum,p->Val);
+            p=p->next;
+            serialNum++;
+        }
+        break;
+    }
+    printf("traverse linkstack done!\n");
+    return true;
+}

@@ -19,6 +19,11 @@ void SpeedAlarm(uint16_t speed){
 void DriveCar(uint16_t val, CarCallBack cb){
     if (cb!=NULL)
     {
+        /*此处使用函数指针与直接调用对应的函数SpeedAlarm()的区别：
+                          主要在于其他函数调用DriveCar()时更加明确DriveCar()的作用，
+               比如在main()中调用DriveCar(145,SpeedAlarm); 可知DriveCar()的作用是显示车速在145时的报警内容。  
+        
+        */
         cb(val);
     }
     
