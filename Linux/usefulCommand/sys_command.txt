@@ -1,0 +1,13 @@
+（1）关机/重启
+shutdown -h now 	立即关机
+shutdown -h 1	 	一分钟后关机
+shutdown -r now 	立即重启
+halt			关机
+reboot			重启
+sync			同步(将缓存中的内容同步到磁盘)
+(2)用户切换
+sudo -i			在图形界面的终端中切换权限到root(输入logout退出root)
+(3)相对路径：
+./			相对于当前目录下的路径(相对路径)
+./adc			当前目录下的adc 子目录
+../adc			上级目录里的adc子目录
